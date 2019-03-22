@@ -1,14 +1,24 @@
 # AJAX and Static Site Generation
 
-Today were are building [this](https://amazing-hawking-49c3f6.netlify.com).
+## Homework
+
+* watch this video on [Fetch](https://youtu.be/Oive66jrwBs)
+
+Today were are building [this](https://amazing-hawking-49c3f6.netlify.com). 
+
+**Do not download the zip.** Instead use the same technique from last class to clone the repo.
+
+```sh
+cd ~/Desktop
+git clone 
 
 We will start with the Ajax.
 
 ## Ajax
 
-[XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
+The original [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) method is in widespread use. You should make yourself familiar with it, however we will be using a newer API called fetch.
 
-Open `post/ajax.html` in VS Code:
+Examine `post/ajax.html` in VS Code:
 
 ```html
 ---
@@ -26,29 +36,29 @@ navtitle: Ajax
 <div class="content"></div>
 ```
 
-## Ajax
-
-The [original](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
+Don't worry about the material at the top. It is not part of ajax and can be ignored for the moment (we'll get to it later).
 
 ## Fetch
 
-The fetch() [method](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) takes one mandatory argument, the path to the resource you want to fetch. It returns a Promise that resolves to the Response to that request, whether it is successful or not.
+The `fetch()` [method](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) takes one mandatory argument, the path to the resource you want to fetch. It returns something know as a Promise that, in turn, resolves to the response after the content is received.
 
 ## Rest API
 
-[Typicode](http://jsonplaceholder.typicode.com/)
+We need data we can fetch from the internet. We'll start with [Typicode](http://jsonplaceholder.typicode.com/)
 
-Promises:
-
-```sh
-fetch('https://jsonplaceholder.typicode.com/posts')
-```
-
-Promises resolved:
+A promise:
 
 ```sh
-fetch('https://jsonplaceholder.typicode.com/posts').then(response => response.json())
+> fetch('https://jsonplaceholder.typicode.com/posts')
 ```
+
+A resolved promise:
+
+```sh
+> fetch('https://jsonplaceholder.typicode.com/posts').then(response => response.json())
+```
+
+Since the promise is resolved you can see the actual data in the console. It returns an array of 100 fake posts which we can console.log:
 
 ```sh
 fetch('https://jsonplaceholder.typicode.com/todos/')
@@ -56,6 +66,9 @@ fetch('https://jsonplaceholder.typicode.com/todos/')
   .then(json => console.log(json))
 ```
 
+Let's start out with event delegation. 
+
+In `scripts.js`:
 
 ```js
 document.addEventListener('click', clickHandlers)
