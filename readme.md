@@ -8,6 +8,8 @@ We will start with the Ajax.
 
 [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
 
+Open `post/ajax.html` in VS Code:
+
 ```html
 ---
 pageClass: ajax
