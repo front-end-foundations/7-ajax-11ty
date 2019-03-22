@@ -13,7 +13,7 @@ var addContent = function(data){
 }
 
 var getData = function () {
-	fetch('https://jsonplaceholder.typicode.com/posts')
+	fetch('https://jsonplaceholder.typicode.com/photos')
   .then(response => response.json())
   .then(json => addContent(json))
 }

@@ -3,20 +3,31 @@
 ## Homework
 
 * watch this video on [Fetch](https://youtu.be/Oive66jrwBs)
+* create your own New York Times developer account and use it to customize your Ajax page
+
+## Exercise
 
 Today were are building [this](https://amazing-hawking-49c3f6.netlify.com). 
 
-**Do not download the zip.** Instead use the same technique from last class to clone the repo.
+**Do not download the zip.** Instead, use the same technique from last class to clone the repo.
 
 ```sh
 cd ~/Desktop
-git clone 
+git clone https://github.com/front-end-foundations/7-ajax-11ty.git
+cd 7-ajax-11ty
+npm install
+npm run start
+```
+
+And open the localhost address in Chrome.
 
 We will start with the Ajax.
 
 ## Ajax
 
-The original [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) method is in widespread use. You should make yourself familiar with it, however we will be using a newer API called fetch.
+Ajax allows you to get data from your own or another's web service. Web services expose specific data and services in the form of an API which allows you to get, delete, update or create data via [routes](http://jsonplaceholder.typicode.com/). Today, we are solely focused on getting data.
+
+The original [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) browser API is in widespread use. You should make yourself familiar with it, however we will be using a newer and simpler API called fetch.
 
 Examine `post/ajax.html` in VS Code:
 
@@ -37,6 +48,8 @@ navtitle: Ajax
 ```
 
 Don't worry about the material at the top. It is not part of ajax and can be ignored for the moment (we'll get to it later).
+
+You can find this page at `http://localhost:8080/posts/ajax/`
 
 ## Fetch
 
@@ -74,7 +87,6 @@ In `scripts.js`:
 document.addEventListener('click', clickHandlers)
 
 function clickHandlers(){
-  console.log(event.target)
   if (event.target.matches('button')){
     getData()
   }
@@ -91,6 +103,8 @@ var getData = function () {
   .then(json => addContent(json))
 }
 ```
+
+Try [other resources](http://jsonplaceholder.typicode.com/) such as comments or photos.
 
 ## Looping
 
