@@ -1,5 +1,9 @@
 # AJAX and Static Site Generation
 
+Today were are building [this](https://amazing-hawking-49c3f6.netlify.com).
+
+We will start with the Ajax.
+
 ## Ajax
 
 [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
@@ -462,6 +466,11 @@ img {
 	width: 100%;
 }
 
+a {
+  text-decoration: none;
+  color: #007eb6;
+}
+
 nav ul {
 	padding: 0;
 	list-style: none;
@@ -469,14 +478,13 @@ nav ul {
 }
 
 nav ul a {
-	text-decoration: none;
 	padding: 1rem;
 }
 
 article {
 	padding: 1rem;
 	display: grid;
-	grid-template-columns: repeat(5, 1fr);
+	grid-template-columns: repeat(1, 1fr);
 }
 ```
 
@@ -662,7 +670,7 @@ And edit layout.html to use the pageClass:
 </html>
 ```
 
-Add some CSS to taste:
+Add CSS to taste:
 
 ```css
 .ajax button {
@@ -677,7 +685,11 @@ Add some CSS to taste:
 .ajax .content {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	grid-gap: 1rem;
+	grid-gap: 2rem;
+}
+
+.item {
+  border-bottom: 1px dashed #aaa;
 }
 ```
 
