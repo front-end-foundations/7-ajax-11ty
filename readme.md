@@ -150,7 +150,7 @@ Package:
   },
 ```
 
-Create a posts folder and a sample markdown file about.md.
+Create a `posts` folder and a sample markdown file `about.md` in it.
 
 ```md
 # About Us
