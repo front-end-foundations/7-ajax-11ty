@@ -4,21 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Home Template</title>
+   <link rel="stylesheet" href="/css/styles.css">
+  <title>My Blog</title>
 </head>
-<body>
+<body class="{{ pageClass }}">
 
-  <nav>
-    <ul>
-    {% for nav in collections.nav %}
-      <li class="nav-item{% if nav.url == page.url %} nav-item-active{% endif %}"><a href="{{ nav.url | url }}">{{ nav.data.navtitle }}</a></li>
-    {%- endfor -%}
-    </ul>
-  </nav>
+<nav>
+<ul>
+{% for nav in collections.nav %}
+  <li class="nav-item{% if nav.url == page.url %} nav-item-active{% endif %}"><a href="{{ nav.url | url }}">{{ nav.data.navtitle }}</a></li>
+{%- endfor -%}
+</ul>
+</nav>
 
-  <h1>{{ pageTitle }}</h1>
-  
-  {{ content }}
+<h1>{{ pageTitle }}</h1>
+
+{{ content }}
+
+<script src="/js/scripts.js" ></script>
 
 </body>
 </html>

@@ -1,12 +1,14 @@
 ---
-layout: layout.html
 pageTitle: Pictures
-tags:
-  - nav
 navtitle: Pictures
+images:
+  - apples.png
+  - apples-red.png
+  - apples-group.png
 ---
 
-* pic one
-* pic two
+{% for filename in images %}
+<img src="/img/{{ filename }}" alt="A nice picture of apples." srcset="">
+{% endfor %}
 
 [Home](/)
