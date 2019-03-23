@@ -9,19 +9,18 @@
 
 Today were are building [this](https://amazing-hawking-49c3f6.netlify.com). 
 
-**Do not download the zip.** Instead, use the same technique from last class to clone the repo.
+**Do not download the zip.** Instead, use the same technique outlined last class to clone the repo.
 
 ```sh
-cd ~/Desktop
-git clone https://github.com/front-end-foundations/7-ajax-11ty.git
-cd 7-ajax-11ty
-npm install
-npm run start
+> cd ~/Desktop // or whereever
+> git clone https://github.com/front-end-foundations/7-ajax-11ty.git
+> cd 7-ajax-11ty
+> npm install
+> code .
+> npm run start
 ```
 
 And open the localhost address in Chrome.
-
-We will start with the Ajax.
 
 ## Ajax
 
@@ -29,7 +28,7 @@ Ajax allows you to get data from your own or another's web service. Web services
 
 The original [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) browser API is in widespread use. You should make yourself familiar with it, however we will be using a newer and simpler API called fetch.
 
-Examine `post/ajax.html` in VS Code:
+Examine `posts/ajax.html` in VS Code:
 
 ```html
 ---
@@ -40,7 +39,7 @@ tags:
 navtitle: Ajax
 ---
 
-<h2>This is a subpost</h2>
+<h2>Ajax</h2>
 
 <button>Click</button>
 
@@ -49,7 +48,7 @@ navtitle: Ajax
 
 Don't worry about the material at the top. It is not part of ajax and can be ignored for the moment (we'll get to it later).
 
-You can find this page at `http://localhost:8080/posts/ajax/`
+View the page in chrome.
 
 ## Fetch
 
@@ -106,6 +105,69 @@ var getData = function () {
 
 Try [other resources](http://jsonplaceholder.typicode.com/) such as comments or photos.
 
+For comparison, here's the XMLHttpRequest version:
+
+```js
+document.addEventListener('click', clickHandlers)
+
+function clickHandlers(){
+  console.log(event.target)
+  if (event.target.matches('button')){
+    getData()
+  }
+}
+
+var addContent = function(data){
+  console.log(data)
+	document.querySelector('.content').innerText = data;
+}
+
+var getData = function(data){
+  var xhr = new XMLHttpRequest();
+  xhr.onload = function () {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      addContent(xhr.responseText);
+    } else {
+      console.log('The request failed!');
+    }
+  }
+  xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+  xhr.send();
+}
+```
+
+Add `var data = JSON.parse(xhr.responseText);` and target one piece of the data only:
+
+```js
+document.addEventListener('click', clickHandlers)
+
+function clickHandlers(){
+  console.log(event.target)
+  if (event.target.matches('button')){
+    getData()
+  }
+}
+
+var addContent = function(data){
+  console.log(data)
+	document.querySelector('.content').innerText = data[0].title;
+}
+
+var getData = function(data){
+  var xhr = new XMLHttpRequest();
+  xhr.onload = function () {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      var data = JSON.parse(xhr.responseText);
+      addContent(data);
+    } else {
+      console.log('The request failed!');
+    }
+  }
+  xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+  xhr.send();
+}
+```
+
 ## Looping
 
 New York Times [developers](https://developer.nytimes.com/) site.
@@ -133,7 +195,54 @@ var addContent = function(data){
       </div>
       `
   }
+  document.querySelector('.content').innerHTML = looped
+}
 
+var getData = function () {
+	fetch(nyt)
+  .then(response => response.json())
+  .then(json => addContent(json))
+}
+```
+
+Note: I've declared the variable looped _before_ I started working with it.
+
+Something like the below wouldn't work as it resets the value everytime the for loop runs.
+
+```js
+  for(i=0; i<data.results.length; i++){
+    var looped = ''
+    looped += `
+      <div class="item">
+        <h3>${data.results[i].title}</h3>
+        <p>${data.results[i].abstract}</p>
+      </div>
+      `
+  }
+```
+
+An alternative method (which is more advanced) might use the `map()` method on the array:
+
+```js
+document.addEventListener('click', clickHandlers)
+
+var nyt = 'https://api.nytimes.com/svc/topstories/v2/nyregion.json?api-key=OuQiMDj0xtgzO80mtbAa4phGCAJW7GKa'
+
+function clickHandlers(){
+  if (event.target.matches('button')){
+    getData()
+  }
+}
+
+var addContent = function(data){
+  var looped = data.results.map( (result) => (
+    `
+      <div class="item">
+        <h3>${result.title}</h3>
+        <p>${result.abstract}</p>
+      </div>
+    `
+  )).join('')
   document.querySelector('.content').innerHTML = looped
 
 }
@@ -143,7 +252,6 @@ var getData = function () {
   .then(response => response.json())
   .then(json => addContent(json))
 }
-
 ```
 
 ## Eleventy
@@ -556,6 +664,8 @@ And a link to it in the layout.html template:
 </html>
 ```
 
+Note the addition of the `{% if ... endif %}` tag in the navbar. This creates a static active class that we can leverage in the css.
+
 We can also add additional tags that can be used to reorganize content in interesting ways. 
 
 Instead of this however:
@@ -706,6 +816,10 @@ And edit layout.html to use the pageClass:
 Add CSS to taste:
 
 ```css
+.nav-item-active {
+  text-decoration: underline;
+}
+
 .ajax button {
 	border: none;
 	padding: 0.5rem 1rem;
@@ -728,10 +842,10 @@ Add CSS to taste:
 
 Note the root relative paths for the CSS and JavaScript.
 
-If we upload this to a web server these will [break the site](http://oit2.scps.nyu.edu/~devereld/session7/_site/).
+If we upload this to a web server these will [break](http://oit2.scps.nyu.edu/~devereld/session7/_site/) due to the root links.
 
 The error reads:
 
 `Loading failed for the <script> with source “http://oit2.scps.nyu.edu/js/scripts.js”.`
 
-You can use Netlify to very quickly put this on the web. Register and/or Log in to app.netlify.com and drag and drop the _site folder onto the web browser window to upload the contents [live to the web](https://amazing-hawking-49c3f6.netlify.com).
+You can use [Netlify](https://www.netlify.com/) to very quickly put this on the web. Register and/or Log in to [app.netlify.com](https://app.netlify.com) and drag and drop the `_site` folder onto the web browser window to upload the contents [live to the web](https://amazing-hawking-49c3f6.netlify.com).

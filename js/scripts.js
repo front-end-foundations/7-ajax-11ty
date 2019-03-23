@@ -1,19 +1,30 @@
 document.addEventListener('click', clickHandlers)
 
+var nyt = 'https://api.nytimes.com/svc/topstories/v2/nyregion.json?api-key=OuQiMDj0xtgzO80mtbAa4phGCAJW7GKa'
+
 function clickHandlers(){
-  console.log(event.target)
   if (event.target.matches('button')){
     getData()
   }
 }
 
 var addContent = function(data){
-  console.log(data)
-	document.querySelector('.content').innerText = data[1].body;
+
+  var looped = ''
+
+  for(i=0; i<data.results.length; i++){
+    looped += `
+      <div class="item">
+        <h3>${data.results[i].title}</h3>
+        <p>${data.results[i].abstract}</p>
+      </div>
+      `
+  }
+  document.querySelector('.content').innerHTML = looped
 }
 
 var getData = function () {
-	fetch('https://jsonplaceholder.typicode.com/photos')
+	fetch(nyt)
   .then(response => response.json())
   .then(json => addContent(json))
 }

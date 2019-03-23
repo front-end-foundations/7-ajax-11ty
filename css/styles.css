@@ -22,6 +22,10 @@ nav ul {
 	display: flex;
 }
 
+.nav-item-active {
+  text-decoration: underline;
+}
+
 nav ul a {
 	padding: 1rem;
 }
