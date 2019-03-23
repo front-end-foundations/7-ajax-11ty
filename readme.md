@@ -9,6 +9,8 @@
 
 Today were are building [this](https://amazing-hawking-49c3f6.netlify.com). 
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/044ddd8e-853d-4282-8248-b2eeab94168d/deploy-status)](https://app.netlify.com/sites/zealous-kilby-113356/deploys)
+
 **Do not download the zip.** Instead, use the same technique outlined last class to clone the repo.
 
 ```sh
