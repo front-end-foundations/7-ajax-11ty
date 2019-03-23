@@ -7,7 +7,7 @@
 
 ## Exercise
 
-Today were are building [this](https://amazing-hawking-49c3f6.netlify.com). 
+Today were are building [a multipage static website](https://amazing-hawking-49c3f6.netlify.com) with an ajax connection that pulls articles from the New York Times. 
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/044ddd8e-853d-4282-8248-b2eeab94168d/deploy-status)](https://app.netlify.com/sites/zealous-kilby-113356/deploys)
 
@@ -65,13 +65,13 @@ navtitle: Ajax
 <div class="content"></div>
 ```
 
-Don't worry about the material at the top. It is not part of ajax and can be ignored for the moment (we'll get to it later).
+Don't worry about the `---` material at the top. It is not part of the HTML and can be ignored (we'll get to it later).
 
 View the page in chrome.
 
 ## Fetch
 
-The `fetch()` [method](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) takes one mandatory argument, the path to the resource you want to fetch. It returns something know as a Promise that, in turn, resolves to the response after the content is received.
+The `fetch()` [method](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) takes one mandatory argument, the path to the resource you want to fetch. It returns something known as a Promise that, in turn, resolves to the response after the content is received.
 
 ## Rest API
 
@@ -83,7 +83,7 @@ A promise:
 > fetch('https://jsonplaceholder.typicode.com/posts')
 ```
 
-A resolved promise:
+A resolved promise using `.then`:
 
 ```sh
 > fetch('https://jsonplaceholder.typicode.com/posts').then(response => response.json())
@@ -586,9 +586,9 @@ module.exports = function (eleventyConfig) {
 };
 ```
 
-Restart the server and you'll find the img folder in _site.
+Restart the server and you'll find the img folder in `_site`.
 
-The image path needs to be altered from a relative path to a root path:
+The image path needs to be altered from a relative path to a root directory path:
 
 `![Image of apples](/img/apples.png)`
 
@@ -638,7 +638,7 @@ nav ul {
 }
 
 nav ul a {
-	padding: 1rem;
+	padding: 0.5rem;
 }
 
 article {
@@ -835,8 +835,14 @@ And edit layout.html to use the pageClass:
 Add CSS to taste:
 
 ```css
-.nav-item-active {
-  text-decoration: underline;
+nav ul a {
+	padding: 0.5rem;
+}
+
+.nav-item-active a {
+  color: #fff;
+  background-color: #007eb6;
+  border-radius: 4px;
 }
 
 .ajax button {
@@ -867,8 +873,14 @@ The error reads:
 
 `Loading failed for the <script> with source “http://oit2.scps.nyu.edu/js/scripts.js”.`
 
-You can use [Netlify](https://www.netlify.com/) to very quickly put this on the web. Register and/or Log in to [app.netlify.com](https://app.netlify.com) and drag and drop the `_site` folder onto the web browser window to upload the contents [live to the web](https://amazing-hawking-49c3f6.netlify.com).
+There are a number of ways to deal with this including putting a `base` tag in the head of the document:
 
-We can also hook into a Github branch to set up coninuous delpoyment.
+`<base href="https://www.oit2.scps.nyu.edu.com/session7/_site">`
 
-For more experience with 11ty, download the official 11ty blog template or, for something even fancier, try Villalobos' new [template](https://github.com/planetoftheweb/seven).
+But today we'll use [Netlify](https://www.netlify.com/) to put this on the web. Register and/or log in to [app.netlify.com](https://app.netlify.com) and drag and drop the `_site` folder onto the web browser window to upload the contents [live to the web](https://amazing-hawking-49c3f6.netlify.com).
+
+We can also hook into a Github branch to set up [continuous delpoyment](https://app.netlify.com/start).
+
+For more experience with 11ty, download the official 11ty blog template or, if you feel like a challenge and something fancier, try Villalobos' new [template](https://github.com/planetoftheweb/seven) or [Skeleventy](https://skeleventy.netlify.com/).
+
+## Notes
