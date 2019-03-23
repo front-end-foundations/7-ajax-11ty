@@ -14,10 +14,27 @@ Today were are building [this](https://amazing-hawking-49c3f6.netlify.com).
 **Do not download the zip.** Instead, use the same technique outlined last class to clone the repo.
 
 ```sh
-> cd ~/Desktop // or whereever
+> cd ~/Desktop // or where ever you want to work from
 > git clone https://github.com/front-end-foundations/7-ajax-11ty.git
 > cd 7-ajax-11ty
 > npm install
+```
+
+See what your pushing to: 
+
+```sh
+git remote -v
+```
+
+[Change](https://help.github.com/en/articles/changing-a-remotes-url) the repo you are pushing to.
+
+```sh
+git remote set-url <your repo goes here>
+```
+
+Open and run the project:
+
+```sh
 > code .
 > npm run start
 ```
@@ -384,7 +401,7 @@ layout: layout.html
 <h2>Home</h2>
 ```
 
-The material at the top is called [frontmatter](https://www.11ty.io/docs/data-frontmatter/) as uses `Yaml` (Yet Another Markup Language) syntax.
+The material at the top between the `---`s is called [frontmatter](https://www.11ty.io/docs/data-frontmatter/) as uses `Yaml` (Yet Another Markup Language) syntax.
 
 Add to layout.html:
 
@@ -851,3 +868,5 @@ The error reads:
 `Loading failed for the <script> with source “http://oit2.scps.nyu.edu/js/scripts.js”.`
 
 You can use [Netlify](https://www.netlify.com/) to very quickly put this on the web. Register and/or Log in to [app.netlify.com](https://app.netlify.com) and drag and drop the `_site` folder onto the web browser window to upload the contents [live to the web](https://amazing-hawking-49c3f6.netlify.com).
+
+We can also hook into a Github branch to set up coninuous delpoyment.
