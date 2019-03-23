@@ -870,3 +870,5 @@ The error reads:
 You can use [Netlify](https://www.netlify.com/) to very quickly put this on the web. Register and/or Log in to [app.netlify.com](https://app.netlify.com) and drag and drop the `_site` folder onto the web browser window to upload the contents [live to the web](https://amazing-hawking-49c3f6.netlify.com).
 
 We can also hook into a Github branch to set up coninuous delpoyment.
+
+For more experience with 11ty, download the official 11ty blog template or, for something even fancier, try Villalobos' new [template](https://github.com/planetoftheweb/seven).
