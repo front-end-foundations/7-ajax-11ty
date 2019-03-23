@@ -152,7 +152,7 @@ var getData = function () {
 
 The benefits of 11ty include the fact that it is written in JavaScript and its supreme simplicity. It uses [Liquid](https://shopify.github.io/liquid/) under the hood. Liquid is a safe templating engine made to run untrusted templates for Shopify’s hosted platform. 
 
-A template processor (also known as a template engine or template parser) is software designed to combine templates with a data model to produce result documents. The language that the templates are written in is known as a template language or templating language.
+A template processor (also known as a template engine or template parser) is software designed to combine templates with a data model to output documents. The language that the templates are written in is known as a template language or templating language.
 
 The most popular static site generator - Jekyll - is used at Github and is written in Ruby. That means you have to worry about Ruby installation and versions if you want to use it. 
 
@@ -262,6 +262,8 @@ Save index.html into it as `layout.html`:
 </html>
 ```
 
+11ty uses a templating system called Liquid. `{{ content }}` is a Liquid [object](https://shopify.github.io/liquid/basics/introduction/). If templating is new to you be aware that they are generally quite simple languages and can be master easily over time. There are so many templating languages (and 11ty supports the most common) that we will not be focusing on them here. You will eventually find one that works best for you.
+
 Edit index.html as follows:
 
 ```html
@@ -366,6 +368,8 @@ And in layout.html:
     </ul>
   </nav>
 ```
+
+Note: `{% ... %}` is a liquid [tag](https://shopify.github.io/liquid/basics/introduction/). Templating tags create the logic and control flow for templates. 
 
 And in index.html:
 
