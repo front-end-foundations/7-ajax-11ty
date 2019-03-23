@@ -20,9 +20,7 @@ var addContent = function(data){
       </div>
       `
   }
-
   document.querySelector('.content').innerHTML = looped
-
 }
 
 var getData = function () {
@@ -30,6 +28,3 @@ var getData = function () {
   .then(response => response.json())
   .then(json => addContent(json))
 }
-
-
-

@@ -1,12 +1,36 @@
 # AJAX and Static Site Generation
 
-Today were are building [this](https://amazing-hawking-49c3f6.netlify.com).
+## Homework
 
-We will start with the Ajax.
+* watch this video on [Fetch](https://youtu.be/Oive66jrwBs)
+* create your own New York Times developer account and use it to customize your Ajax page
+
+## Exercise
+
+Today were are building [this](https://amazing-hawking-49c3f6.netlify.com). 
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/044ddd8e-853d-4282-8248-b2eeab94168d/deploy-status)](https://app.netlify.com/sites/zealous-kilby-113356/deploys)
+
+**Do not download the zip.** Instead, use the same technique outlined last class to clone the repo.
+
+```sh
+> cd ~/Desktop // or whereever
+> git clone https://github.com/front-end-foundations/7-ajax-11ty.git
+> cd 7-ajax-11ty
+> npm install
+> code .
+> npm run start
+```
+
+And open the localhost address in Chrome.
 
 ## Ajax
 
-[XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
+Ajax allows you to get data from your own or another's web service. Web services expose specific data and services in the form of an API which allows you to get, delete, update or create data via [routes](http://jsonplaceholder.typicode.com/). Today, we are solely focused on getting data.
+
+The original [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) browser API is in widespread use. You should make yourself familiar with it, however we will be using a newer and simpler API called fetch.
+
+Examine `posts/ajax.html` in VS Code:
 
 ```html
 ---
@@ -17,36 +41,38 @@ tags:
 navtitle: Ajax
 ---
 
-<h2>This is a subpost</h2>
+<h2>Ajax</h2>
 
 <button>Click</button>
 
 <div class="content"></div>
 ```
 
-## Ajax
+Don't worry about the material at the top. It is not part of ajax and can be ignored for the moment (we'll get to it later).
 
-The [original](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
+View the page in chrome.
 
 ## Fetch
 
-The fetch() [method](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) takes one mandatory argument, the path to the resource you want to fetch. It returns a Promise that resolves to the Response to that request, whether it is successful or not.
+The `fetch()` [method](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) takes one mandatory argument, the path to the resource you want to fetch. It returns something know as a Promise that, in turn, resolves to the response after the content is received.
 
 ## Rest API
 
-[Typicode](http://jsonplaceholder.typicode.com/)
+We need data we can fetch from the internet. We'll start with [Typicode](http://jsonplaceholder.typicode.com/)
 
-Promises:
-
-```sh
-fetch('https://jsonplaceholder.typicode.com/posts')
-```
-
-Promises resolved:
+A promise:
 
 ```sh
-fetch('https://jsonplaceholder.typicode.com/posts').then(response => response.json())
+> fetch('https://jsonplaceholder.typicode.com/posts')
 ```
+
+A resolved promise:
+
+```sh
+> fetch('https://jsonplaceholder.typicode.com/posts').then(response => response.json())
+```
+
+Since the promise is resolved you can see the actual data in the console. It returns an array of 100 fake posts which we can console.log:
 
 ```sh
 fetch('https://jsonplaceholder.typicode.com/todos/')
@@ -54,12 +80,14 @@ fetch('https://jsonplaceholder.typicode.com/todos/')
   .then(json => console.log(json))
 ```
 
+Let's start out with event delegation. 
+
+In `scripts.js`:
 
 ```js
 document.addEventListener('click', clickHandlers)
 
 function clickHandlers(){
-  console.log(event.target)
   if (event.target.matches('button')){
     getData()
   }
@@ -74,6 +102,71 @@ var getData = function () {
 	fetch('https://jsonplaceholder.typicode.com/posts')
   .then(response => response.json())
   .then(json => addContent(json))
+}
+```
+
+Try [other resources](http://jsonplaceholder.typicode.com/) such as comments or photos.
+
+For comparison, here's the XMLHttpRequest version:
+
+```js
+document.addEventListener('click', clickHandlers)
+
+function clickHandlers(){
+  console.log(event.target)
+  if (event.target.matches('button')){
+    getData()
+  }
+}
+
+var addContent = function(data){
+  console.log(data)
+	document.querySelector('.content').innerText = data;
+}
+
+var getData = function(data){
+  var xhr = new XMLHttpRequest();
+  xhr.onload = function () {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      addContent(xhr.responseText);
+    } else {
+      console.log('The request failed!');
+    }
+  }
+  xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+  xhr.send();
+}
+```
+
+Add `var data = JSON.parse(xhr.responseText);` and target one piece of the data only:
+
+```js
+document.addEventListener('click', clickHandlers)
+
+function clickHandlers(){
+  console.log(event.target)
+  if (event.target.matches('button')){
+    getData()
+  }
+}
+
+var addContent = function(data){
+  console.log(data)
+	document.querySelector('.content').innerText = data[0].title;
+}
+
+var getData = function(data){
+  var xhr = new XMLHttpRequest();
+  xhr.onload = function () {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      var data = JSON.parse(xhr.responseText);
+      addContent(data);
+    } else {
+      console.log('The request failed!');
+    }
+  }
+  xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+  xhr.send();
 }
 ```
 
@@ -104,7 +197,54 @@ var addContent = function(data){
       </div>
       `
   }
+  document.querySelector('.content').innerHTML = looped
+}
 
+var getData = function () {
+	fetch(nyt)
+  .then(response => response.json())
+  .then(json => addContent(json))
+}
+```
+
+Note: I've declared the variable looped _before_ I started working with it.
+
+Something like the below wouldn't work as it resets the value everytime the for loop runs.
+
+```js
+  for(i=0; i<data.results.length; i++){
+    var looped = ''
+    looped += `
+      <div class="item">
+        <h3>${data.results[i].title}</h3>
+        <p>${data.results[i].abstract}</p>
+      </div>
+      `
+  }
+```
+
+An alternative method (which is more advanced) might use the `map()` method on the array:
+
+```js
+document.addEventListener('click', clickHandlers)
+
+var nyt = 'https://api.nytimes.com/svc/topstories/v2/nyregion.json?api-key=OuQiMDj0xtgzO80mtbAa4phGCAJW7GKa'
+
+function clickHandlers(){
+  if (event.target.matches('button')){
+    getData()
+  }
+}
+
+var addContent = function(data){
+  var looped = data.results.map( (result) => (
+    `
+      <div class="item">
+        <h3>${result.title}</h3>
+        <p>${result.abstract}</p>
+      </div>
+    `
+  )).join('')
   document.querySelector('.content').innerHTML = looped
 
 }
@@ -114,7 +254,6 @@ var getData = function () {
   .then(response => response.json())
   .then(json => addContent(json))
 }
-
 ```
 
 ## Eleventy
@@ -123,7 +262,7 @@ var getData = function () {
 
 The benefits of 11ty include the fact that it is written in JavaScript and its supreme simplicity. It uses [Liquid](https://shopify.github.io/liquid/) under the hood. Liquid is a safe templating engine made to run untrusted templates for Shopify’s hosted platform. 
 
-A template processor (also known as a template engine or template parser) is software designed to combine templates with a data model to produce result documents. The language that the templates are written in is known as a template language or templating language.
+A template processor (also known as a template engine or template parser) is software designed to combine templates with a data model to output documents. The language that the templates are written in is known as a template language or templating language.
 
 The most popular static site generator - Jekyll - is used at Github and is written in Ruby. That means you have to worry about Ruby installation and versions if you want to use it. 
 
@@ -233,6 +372,8 @@ Save index.html into it as `layout.html`:
 </html>
 ```
 
+11ty uses a templating system called Liquid. `{{ content }}` is a Liquid [object](https://shopify.github.io/liquid/basics/introduction/). If templating is new to you be aware that they are generally quite simple languages and can be master easily over time. There are so many templating languages (and 11ty supports the most common) that we will not be focusing on them here. You will eventually find one that works best for you.
+
 Edit index.html as follows:
 
 ```html
@@ -337,6 +478,8 @@ And in layout.html:
     </ul>
   </nav>
 ```
+
+Note: `{% ... %}` is a liquid [tag](https://shopify.github.io/liquid/basics/introduction/). Templating tags create the logic and control flow for templates. 
 
 And in index.html:
 
@@ -523,6 +666,8 @@ And a link to it in the layout.html template:
 </html>
 ```
 
+Note the addition of the `{% if ... endif %}` tag in the navbar. This creates a static active class that we can leverage in the css.
+
 We can also add additional tags that can be used to reorganize content in interesting ways. 
 
 Instead of this however:
@@ -673,6 +818,10 @@ And edit layout.html to use the pageClass:
 Add CSS to taste:
 
 ```css
+.nav-item-active {
+  text-decoration: underline;
+}
+
 .ajax button {
 	border: none;
 	padding: 0.5rem 1rem;
@@ -695,10 +844,10 @@ Add CSS to taste:
 
 Note the root relative paths for the CSS and JavaScript.
 
-If we upload this to a web server these will [break the site](http://oit2.scps.nyu.edu/~devereld/session7/_site/).
+If we upload this to a web server these will [break](http://oit2.scps.nyu.edu/~devereld/session7/_site/) due to the root links.
 
 The error reads:
 
 `Loading failed for the <script> with source “http://oit2.scps.nyu.edu/js/scripts.js”.`
 
-You can use Netlify to very quickly put this on the web. Register and/or Log in to app.netlify.com and drag and drop the _site folder onto the web browser window to upload the contents [live to the web](https://amazing-hawking-49c3f6.netlify.com).
+You can use [Netlify](https://www.netlify.com/) to very quickly put this on the web. Register and/or Log in to [app.netlify.com](https://app.netlify.com) and drag and drop the `_site` folder onto the web browser window to upload the contents [live to the web](https://amazing-hawking-49c3f6.netlify.com).
