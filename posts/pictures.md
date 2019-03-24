@@ -5,6 +5,7 @@ images:
   - apples.png
   - apples-red.png
   - apples-group.png
+pageClass: pics
 ---
 
 {% for filename in images %}
