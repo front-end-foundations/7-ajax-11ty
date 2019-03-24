@@ -292,15 +292,11 @@ npm install --save-dev @11ty/eleventy
 code .
 ```
 
-Create a git `.gitignore` file at the top level targeting the node_modules and _site folders:
+Create a git `.gitignore` file at the top level targeting the node_modules folder:
 
 ```sh
-_site
 node_modules
-readme.md
 ```
-
-Note: we are excluding the readme file.
 
 Add a script to `package.json`:
 
@@ -920,9 +916,13 @@ And edit layout.html to use the pageClass:
 </ul>
 </nav>
 
-<h1>{{ pageTitle }}</h1>
+<div class="content">
 
-{{ content }}
+    <h1>{{ pageTitle }}</h1>
+
+    {{ content }}
+    
+</div>
 
 <script src="/js/scripts.js" ></script>
 
@@ -964,7 +964,7 @@ nav ul a {
 ```
 
 Note:
-* we are using the className property to scope this page and the resultant css
+* we are using the className property to scope this page and enanble the css
 * the use of the `>` selector
 * the use of the `.nav-item-active a` selector
 * the root relative paths for the CSS and JavaScript.
@@ -986,3 +986,5 @@ We can also hook into a Github branch to set up [continuous delpoyment](https://
 For more experience with 11ty, download the official 11ty blog template or, if you feel like a challenge and something fancier, try Villalobos' new [template](https://github.com/planetoftheweb/seven) or [Skeleventy](https://skeleventy.netlify.com/), or any of the starter files on the [11ty](https://www.11ty.io/docs/starter/) starter page.
 
 ## Notes
+
+JAM stack
