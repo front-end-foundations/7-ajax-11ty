@@ -1,5 +1,5 @@
 ---
-pageTitle: Pictures
+pageTitle: Apples
 navTitle: Pictures
 images:
   - apples.png

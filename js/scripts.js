@@ -20,7 +20,9 @@ var addContent = function(data){
       </div>
       `
   }
-  document.querySelector('.content').innerHTML = looped
+
+  document.querySelector('.content div').innerHTML = looped
+
 }
 
 var getData = function () {

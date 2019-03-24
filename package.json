@@ -1,11 +1,12 @@
 {
-  "name": "11tytest",
+  "name": "eleventy2",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Homework",
   "main": "index.js",
   "scripts": {
     "start": "eleventy --serve"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
