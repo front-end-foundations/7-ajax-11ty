@@ -1,8 +1,8 @@
 ---
 pageTitle: About Us
-navtitle: About
+navTitle: About
 ---
 
 We are a group of commited users.
 
-[Back](/)
+[Home](/)

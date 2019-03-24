@@ -7,7 +7,7 @@
 
 ## Exercise
 
-Today were are building [this](https://amazing-hawking-49c3f6.netlify.com). 
+Today were are building [a multipage static website](https://amazing-hawking-49c3f6.netlify.com) with an ajax connection that pulls articles from the New York Times. 
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/044ddd8e-853d-4282-8248-b2eeab94168d/deploy-status)](https://app.netlify.com/sites/zealous-kilby-113356/deploys)
 
@@ -29,7 +29,7 @@ git remote -v
 [Change](https://help.github.com/en/articles/changing-a-remotes-url) the repo you are pushing to.
 
 ```sh
-git remote set-url <your repo goes here>
+git remote set-url <your gitub repo address>
 ```
 
 Open and run the project:
@@ -55,7 +55,7 @@ pageClass: ajax
 pageTitle: Subpost
 tags:
   - nav
-navtitle: Ajax
+navTitle: Ajax
 ---
 
 <h2>Ajax</h2>
@@ -65,13 +65,13 @@ navtitle: Ajax
 <div class="content"></div>
 ```
 
-Don't worry about the material at the top. It is not part of ajax and can be ignored for the moment (we'll get to it later).
+Don't worry about the `---` material at the top. It is not part of the HTML and can be ignored (we'll get to it later).
 
 View the page in chrome.
 
 ## Fetch
 
-The `fetch()` [method](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) takes one mandatory argument, the path to the resource you want to fetch. It returns something know as a Promise that, in turn, resolves to the response after the content is received.
+The `fetch()` [method](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) takes one mandatory argument, the path to the resource you want to fetch. It returns something known as a Promise that, in turn, resolves to the response after the content is received.
 
 ## Rest API
 
@@ -83,7 +83,7 @@ A promise:
 > fetch('https://jsonplaceholder.typicode.com/posts')
 ```
 
-A resolved promise:
+A resolved promise using `.then`:
 
 ```sh
 > fetch('https://jsonplaceholder.typicode.com/posts').then(response => response.json())
@@ -275,30 +275,34 @@ var getData = function () {
 
 ## Eleventy
 
-[Eleventy](https://www.11ty.io/) (aka 11ty) is a simple [static site generator](https://www.smashingmagazine.com/2015/11/static-website-generators-jekyll-middleman-roots-hugo-review/). Static websites are very popular these days due to superior speed and security.
+[Eleventy](https://www.11ty.io/) (aka 11ty) is a simple [static site generator](https://www.smashingmagazine.com/2015/11/static-website-generators-jekyll-middleman-roots-hugo-review/). Static websites are very popular these days due to thier superior speed and security.
 
-The benefits of 11ty include the fact that it is written in JavaScript and its supreme simplicity. It uses [Liquid](https://shopify.github.io/liquid/) under the hood. Liquid is a safe templating engine made to run untrusted templates for Shopify’s hosted platform. 
+A template processor (also known as a template engine or template parser) is software designed to combine templates with data to output documents. The language that the templates are written in is known as a template language or templating language.
 
-A template processor (also known as a template engine or template parser) is software designed to combine templates with a data model to output documents. The language that the templates are written in is known as a template language or templating language.
+The benefits of 11ty over other completing generators include the fact that it is written in JavaScript and its comparative simplicity. It uses [Liquid](https://shopify.github.io/liquid/) under the hood to make pages. Liquid is the in-house templating engine created and maintained by Shopify. You can use additional template engines with 11ty if you wish. 
 
-The most popular static site generator - Jekyll - is used at Github and is written in Ruby. That means you have to worry about Ruby installation and versions if you want to use it. 
+The most popular static site generator - Jekyll - is used at Github and is written in Ruby. 
 
 ```sh
+cd ~/Desktop
 mkdir eleventy
 cd eleventy
 npm init -y
-npm i --save-dev @11ty/eleventy
+npm install --save-dev @11ty/eleventy
 code .
 ```
 
-Create a git `.gitignore` file targeting the node_modules folder:
+Create a git `.gitignore` file at the top level targeting the node_modules and _site folders:
 
-```
+```sh
 _site
 node_modules
+readme.md
 ```
 
-Package:
+Note: we are excluding the readme file.
+
+Add a script to `package.json`:
 
 ```js
   "scripts": {
@@ -306,21 +310,43 @@ Package:
   },
 ```
 
-Create a posts folder and a sample markdown file about.md.
+Create a `posts` folder and within it, a sample markdown file about.md.
 
 ```md
 # About Us
 
 We are a group of commited users.
+
+[Back](/)
 ```
+
+Start 11ty by running the npm script we created:
 
 ```sh
 npm run start
 ```
 
-Note the create of the `_site` folder.
+Note the creation of the `_site` folder and its contents.
 
-You can view the page at [http://localhost:8082/posts/about/](http://localhost:8082/posts/about/)
+You can view the page at `http://localhost:XXXX/posts/about/` where `XXXX` is the port the el11ty is running on.
+
+Create `pictures.md` in posts (not in the _site folder):
+
+```md
+# Pictures
+
+A collection of images.
+
+* pic one
+* pic two
+* ![image](http://pngimg.com/uploads/apple/apple_PNG12405.png)
+
+[Back](/)
+```
+
+These new files need a template.
+
+Note the new HTML file created at `http://localhost:XXXX/posts/pictures/`. Examine the file in the _site folder.
 
 Create `index.html` at the top level.
 
@@ -331,7 +357,7 @@ Create `index.html` at the top level.
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Home Template</title>
+  <title>My Blog</title>
 </head>
 <body>
   <nav>
@@ -341,30 +367,19 @@ Create `index.html` at the top level.
     </ul>
   </nav>
   <div class="content">
-    <h1>Content</h1>
+    <h1>Welcome to my Blog</h1>
   </div>
 </body>
 </html>
 ```
 
-Navigate to `http://localhost:8082/`
-
-Create `pictures.md`:
-
-```md
-# Pictures
-
-* pic one
-* pic two
-
-[Back](/)
-```
+Navigate to `http://localhost:XXXX/` and use the navigation. This is not a template yet
 
 ## Templating
 
-Create a special `_includes` folder at the top level of the project.
+Create an `_includes` folder at the top level of the project.
 
-Save index.html into it as `layout.html`:
+Save index.html into it as `layout.html` with the following changes:
 
 ```html
 <!DOCTYPE html>
@@ -373,7 +388,7 @@ Save index.html into it as `layout.html`:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Home Template</title>
+  <title>My Blog</title>
 </head>
 <body>
   <nav>
@@ -383,13 +398,17 @@ Save index.html into it as `layout.html`:
     </ul>
   </nav>
   
-  {{ content }}
+  <div class="content">
+
+      {{ content }}
+
+  </div>
 
 </body>
 </html>
 ```
 
-11ty uses a templating system called Liquid. `{{ content }}` is a Liquid [object](https://shopify.github.io/liquid/basics/introduction/). If templating is new to you be aware that they are generally quite simple languages and can be master easily over time. There are so many templating languages (and 11ty supports the most common) that we will not be focusing on them here. You will eventually find one that works best for you.
+Recall, 11ty uses a templating system called Liquid by default. `{{ content }}` is a Liquid [object](https://shopify.github.io/liquid/basics/introduction/). If templating is new to you don't worry, it is generally quite simple and can be mastered easily. There are so many templating languages besides Liquid (and 11ty supports most). You will eventually find one that works best for you.
 
 Edit index.html as follows:
 
@@ -401,13 +420,13 @@ layout: layout.html
 <h2>Home</h2>
 ```
 
-The material at the top between the `---`s is called [frontmatter](https://www.11ty.io/docs/data-frontmatter/) as uses `Yaml` (Yet Another Markup Language) syntax.
+The material at the top between the `---`s is called [frontmatter](https://www.11ty.io/docs/data-frontmatter/) as uses `Yaml` (Yet Another Markup Language) syntax. It can also be written in JSON.
 
 Add to layout.html:
 
 `<h1>{{ pageTitle }}</h1>`
 
-Extend the frontmatter in index.html:
+Extend the frontmatter in `index.html`:
 
 ```html
 ---
@@ -417,6 +436,8 @@ pageTitle: Home
 
 <p>Welcome to my site.</p>
 ```
+
+Note: we use front matter to pass data to the template.
 
 And in `about.md`:
 
@@ -431,6 +452,8 @@ We are a group of commited users.
 [Home](/)
 ```
 
+Note that `about.md` now renders into the template.
+
 And in `pictures.md`:
 
 ```html
@@ -441,13 +464,14 @@ pageTitle: Pictures
 
 * pic one
 * pic two
+* ![image](http://pngimg.com/uploads/apple/apple_PNG12405.png)
 
-[Home](/)
+[Back](/)
 ```
 
 ## Collections
 
-A collection allows you to group content in interesting ways.
+A [collection](https://www.11ty.io/docs/collections/) allows you to group, sort and filter content.
 
 In `about.md`:
 
@@ -457,7 +481,7 @@ layout: layout.html
 pageTitle: About Us
 tags:
   - nav
-navtitle: About
+navTitle: About
 ---
 
 We are a group of commited users.
@@ -473,32 +497,33 @@ layout: layout.html
 pageTitle: Pictures
 tags:
   - nav
-navtitle: Pictures
+navTitle: Pictures
 ---
 
 * pic one
 * pic two
+* ![image](http://pngimg.com/uploads/apple/apple_PNG12405.png)
 
-[Home](/)
+[Back](/)
 ```
 
-We use the collection to create a nav 
+We will use use the nav collection to create a nav.
 
-And in layout.html:
+In layout.html:
 
 ```html
-  <nav>
-    <ul>
-    {% for nav in collections.nav %}
-      <li class="nav-item"><a href="{{ nav.url | url }}">{{ nav.data.navtitle }}</a></li>
-    {%- endfor -%}
-    </ul>
-  </nav>
+<nav>
+  <ul>
+  {% for nav in collections.nav %}
+    <li class="nav-item"><a href="{{ nav.url | url }}">{{ nav.data.navTitle }}</a></li>
+  {%- endfor -%}
+  </ul>
+</nav>
 ```
 
 Note: `{% ... %}` is a liquid [tag](https://shopify.github.io/liquid/basics/introduction/). Templating tags create the logic and control flow for templates. 
 
-And in index.html:
+In index.html:
 
 ```html
 ---
@@ -506,7 +531,7 @@ layout: layout.html
 pageTitle: Home
 tags:
   - nav
-navtitle: Home
+navTitle: Home
 ---
 
 <p>Welcome to my site.</p>
@@ -522,7 +547,7 @@ layout: layout.html
 pageTitle: Contact Us
 tags:
   - nav
-navtitle: Contact
+navTitle: Contact
 ---
 
 <h2>Here's how:</h2>
@@ -530,7 +555,9 @@ navtitle: Contact
 <a href="/">Back</a>
 ```
 
-Or you can use HTML file alongside markdown.
+Note: front matter tags can also be written `tags: nav` or `tags: [nav]` if you need multiples just add more: `tags: [nav, other]`. Here's the tagging [documentation](https://www.11ty.io/docs/collections/#tag-syntax).
+
+You can use HTML files alongside markdown.
 
 Change `contact.md` to `contact.html`:
 
@@ -540,7 +567,7 @@ layout: layout.html
 pageTitle: Contact Us
 tags:
   - nav
-navtitle: Contact
+navTitle: Contact
 ---
 
 <h2>Here's how:</h2>
@@ -552,9 +579,9 @@ navtitle: Contact
 <a href="/">Back</a>
 ```
 
-## Collections & Pass Throughs
+## Pass Throughs
 
-We will add some images to the pictures page. 
+We will add some images to the pictures page. Copy the `img` folder from today's project into the new eleventy folder.
 
 Here's an image reference in markdown:
 
@@ -564,7 +591,7 @@ layout: layout.html
 pageTitle: Pictures
 tags:
   - nav
-navtitle: Pictures
+navTitle: Pictures
 images:
   - apples.png
   - apples-red.png
@@ -586,18 +613,40 @@ module.exports = function (eleventyConfig) {
 };
 ```
 
-Restart the server and you'll find the img folder in _site.
+Restart the server and you'll find the img folder in `_site`.
 
-The image path needs to be altered from a relative path to a root path:
+The image path needs to be altered from a relative path to a root directory path:
 
 `![Image of apples](/img/apples.png)`
 
-We can use this in 11ty to loop through the images collection:
+We can use this in 11ty to loop through the images collection with:
 
 ```html
 {% for filename in images %}
 <img src="/img/{{ filename }}" alt="A nice picture of apples." srcset="">
 {% endfor %}
+```
+
+In `pictures.md`
+
+```html
+---
+layout: layout.html
+pageTitle: Apples
+tags:
+  - nav
+navTitle: Pictures
+images:
+  - apples.png
+  - apples-red.png
+  - apples-group.png
+---
+
+{% for filename in images %}
+<img src="/img/{{ filename }}" alt="A nice picture of apples." srcset="">
+{% endfor %}
+
+[Home](/)
 ```
 
 Add passthroughs for JavaScript and CSS in the `.eleventy.js` file and corresponding folders
@@ -610,7 +659,9 @@ module.exports = function (eleventyConfig) {
 };
 ```
 
-Add `styles.css`:
+Add an empty js folder.
+
+Add a css folder and, inside it, `styles.css` with:
 
 ```css
 body {
@@ -638,7 +689,7 @@ nav ul {
 }
 
 nav ul a {
-	padding: 1rem;
+	padding: 0.5rem;
 }
 
 article {
@@ -658,32 +709,33 @@ And a link to it in the layout.html template:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="/css/styles.css">
-  <title>Home Template</title>
+  <title>My Blog</title>
 </head>
 <body>
 
   <nav>
     <ul>
     {% for nav in collections.nav %}
-      <li class="nav-item{% if nav.url == page.url %} nav-item-active{% endif %}"><a href="{{ nav.url | url }}">{{ nav.data.navtitle }}</a></li>
+      <li class="nav-item{% if nav.url == page.url %} nav-item-active{% endif %}"><a href="{{ nav.url | url }}">{{ nav.data.navTitle }}</a></li>
     {%- endfor -%}
     </ul>
   </nav>
 
-  <article>
-    
-    <h1>{{ pageTitle }}</h1>
-  
-    {{ content }}
+  <div class="content">
 
-  </article>
+      <h1>{{ pageTitle }}</h1>
 
+      {{ content }}
+      
+  </div>
 
 </body>
 </html>
 ```
 
 Note the addition of the `{% if ... endif %}` tag in the navbar. This creates a static active class that we can leverage in the css.
+
+## The Posts Collection
 
 We can also add additional tags that can be used to reorganize content in interesting ways. 
 
@@ -699,7 +751,7 @@ tags:
 ---
 ```
 
-We will create `posts/posts.json`:
+We can create `posts/posts.json`:
 
 ```js
 {
@@ -709,22 +761,58 @@ We will create `posts/posts.json`:
 
 ```
 
-Any document in the posts folder will inheret these properties.
+Any document in the posts folder will inherit these properties so can can now remove the duplicate tags and layout metadata from all publications in the posts directory. E.g.:
 
-Remove the same tags and layout metadata from all publications in posts. E.g.:
+* posts:
 
-```
+```md
 ---
 pageTitle: About Us
-navtitle: About
+navTitle: About
 ---
 
 We are a group of commited users.
 
-[Back](/)
+[Home](/)
 ```
 
-And in index.html:
+* contact:
+
+```html
+---
+pageTitle: Contact Us
+navTitle: Contact
+---
+
+<h2>Here's how:</h2>
+
+<ul>
+	<li>917 865 5517</li>
+</ul>
+
+<a href="/">Home</a>
+```
+
+* and pictures:
+
+```md
+---
+pageTitle: Apples
+navTitle: Pictures
+images:
+  - apples.png
+  - apples-red.png
+  - apples-group.png
+---
+
+{% for filename in images %}
+<img src="/img/{{ filename }}" alt="A nice picture of apples." srcset="">
+{% endfor %}
+
+[Home](/)
+```
+
+Now that we have assigned the `posts` tag to every file in the `posts` folder, let's use that collection in `index.html` to display all the posts:
 
 ```html
 ---
@@ -732,7 +820,7 @@ layout: layout.html
 pageTitle: Home
 tags:
   - nav
-navtitle: Home
+navTitle: Home
 ---
 
 <p>Welcome to my site.</p>
@@ -743,6 +831,17 @@ navtitle: Home
 {% endfor %}
 ```
 
+Note: the `|` character in `post.date | date: "%Y-%m-%d"` is a filter. There are a number of [filters available](https://help.shopify.com/en/themes/liquid/filters) including `upcase`:
+
+```html
+{% for post in collections.posts %}
+  <h2><a href="{{ post.url }}">{{ post.data.pageTitle | upcase }}</a></h2>
+  <em>{{ post.date | date: "%Y-%m-%d" }}</em>
+{% endfor %}
+```
+
+To make sure it shows up first in the nav add `date: 2010-01-01` to the front matter.
+
 ## Adding Our Ajax
 
 Add `ajax.html` to the posts folder with:
@@ -751,17 +850,16 @@ Add `ajax.html` to the posts folder with:
 ---
 pageClass: ajax
 pageTitle: New York Today
-navtitle: Ajax
+navTitle: Ajax
 ---
 
 <h2>Ajax</h2>
 
 <button>Click</button>
 
-<div class="content"></div>
 ```
 
-Note the new pageClass property.
+Note the new `pageClass` property. We will use this in our `layout.html` template.
 
 Add the following to `scripts.js`:
 
@@ -817,7 +915,7 @@ And edit layout.html to use the pageClass:
 <nav>
 <ul>
 {% for nav in collections.nav %}
-  <li class="nav-item{% if nav.url == page.url %} nav-item-active{% endif %}"><a href="{{ nav.url | url }}">{{ nav.data.navtitle }}</a></li>
+  <li class="nav-item{% if nav.url == page.url %} nav-item-active{% endif %}"><a href="{{ nav.url | url }}">{{ nav.data.navTitle }}</a></li>
 {%- endfor -%}
 </ul>
 </nav>
@@ -835,8 +933,14 @@ And edit layout.html to use the pageClass:
 Add CSS to taste:
 
 ```css
-.nav-item-active {
-  text-decoration: underline;
+nav ul a {
+	padding: 0.5rem;
+}
+
+.nav-item-active a {
+  color: #fff;
+  background-color: #007eb6;
+  border-radius: 4px;
 }
 
 .ajax button {
@@ -848,18 +952,22 @@ Add CSS to taste:
 	font-size: 1rem;
 }
 
-.ajax .content {
+.ajax .content > div {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-gap: 2rem;
 }
 
-.item {
+.ajax .item {
   border-bottom: 1px dashed #aaa;
 }
 ```
 
-Note the root relative paths for the CSS and JavaScript.
+Note:
+* we are using the className property to scope this page and the resultant css
+* the use of the `>` selector
+* the use of the `.nav-item-active a` selector
+* the root relative paths for the CSS and JavaScript.
 
 If we upload this to a web server these will [break](http://oit2.scps.nyu.edu/~devereld/session7/_site/) due to the root links.
 
@@ -867,8 +975,14 @@ The error reads:
 
 `Loading failed for the <script> with source “http://oit2.scps.nyu.edu/js/scripts.js”.`
 
-You can use [Netlify](https://www.netlify.com/) to very quickly put this on the web. Register and/or Log in to [app.netlify.com](https://app.netlify.com) and drag and drop the `_site` folder onto the web browser window to upload the contents [live to the web](https://amazing-hawking-49c3f6.netlify.com).
+There are a number of ways to deal with this including putting a `base` tag in the head of the document:
 
-We can also hook into a Github branch to set up coninuous delpoyment.
+`<base href="https://www.oit2.scps.nyu.edu.com/session7/_site">`
 
-For more experience with 11ty, download the official 11ty blog template or, for something even fancier, try Villalobos' new [template](https://github.com/planetoftheweb/seven).
+But today we'll use [Netlify](https://www.netlify.com/) to put this on the web. Register and/or log in to [app.netlify.com](https://app.netlify.com) and drag and drop the `_site` folder onto the web browser window to upload the contents [live to the web](https://amazing-hawking-49c3f6.netlify.com).
+
+We can also hook into a Github branch to set up [continuous delpoyment](https://app.netlify.com/start).
+
+For more experience with 11ty, download the official 11ty blog template or, if you feel like a challenge and something fancier, try Villalobos' new [template](https://github.com/planetoftheweb/seven) or [Skeleventy](https://skeleventy.netlify.com/), or any of the starter files on the [11ty](https://www.11ty.io/docs/starter/) starter page.
+
+## Notes
