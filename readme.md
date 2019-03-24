@@ -29,7 +29,7 @@ git remote -v
 [Change](https://help.github.com/en/articles/changing-a-remotes-url) the repo you are pushing to.
 
 ```sh
-git remote set-url <your repo goes here>
+git remote set-url <your gitub repo address>
 ```
 
 Open and run the project:
@@ -55,7 +55,7 @@ pageClass: ajax
 pageTitle: Subpost
 tags:
   - nav
-navtitle: Ajax
+navTitle: Ajax
 ---
 
 <h2>Ajax</h2>
@@ -401,7 +401,7 @@ layout: layout.html
 <h2>Home</h2>
 ```
 
-The material at the top between the `---`s is called [frontmatter](https://www.11ty.io/docs/data-frontmatter/) as uses `Yaml` (Yet Another Markup Language) syntax.
+The material at the top between the `---`s is called [frontmatter](https://www.11ty.io/docs/data-frontmatter/) as uses `Yaml` (Yet Another Markup Language) syntax. It can also be written in JSON.
 
 Add to layout.html:
 
@@ -447,7 +447,7 @@ pageTitle: Pictures
 
 ## Collections
 
-A collection allows you to group content in interesting ways.
+A [collection](https://www.11ty.io/docs/collections/) allows you to group, sort and filter content.
 
 In `about.md`:
 
@@ -457,7 +457,7 @@ layout: layout.html
 pageTitle: About Us
 tags:
   - nav
-navtitle: About
+navTitle: About
 ---
 
 We are a group of commited users.
@@ -473,7 +473,7 @@ layout: layout.html
 pageTitle: Pictures
 tags:
   - nav
-navtitle: Pictures
+navTitle: Pictures
 ---
 
 * pic one
@@ -490,7 +490,7 @@ And in layout.html:
   <nav>
     <ul>
     {% for nav in collections.nav %}
-      <li class="nav-item"><a href="{{ nav.url | url }}">{{ nav.data.navtitle }}</a></li>
+      <li class="nav-item"><a href="{{ nav.url | url }}">{{ nav.data.navTitle }}</a></li>
     {%- endfor -%}
     </ul>
   </nav>
@@ -506,7 +506,7 @@ layout: layout.html
 pageTitle: Home
 tags:
   - nav
-navtitle: Home
+navTitle: Home
 ---
 
 <p>Welcome to my site.</p>
@@ -522,7 +522,7 @@ layout: layout.html
 pageTitle: Contact Us
 tags:
   - nav
-navtitle: Contact
+navTitle: Contact
 ---
 
 <h2>Here's how:</h2>
@@ -540,7 +540,7 @@ layout: layout.html
 pageTitle: Contact Us
 tags:
   - nav
-navtitle: Contact
+navTitle: Contact
 ---
 
 <h2>Here's how:</h2>
@@ -564,7 +564,7 @@ layout: layout.html
 pageTitle: Pictures
 tags:
   - nav
-navtitle: Pictures
+navTitle: Pictures
 images:
   - apples.png
   - apples-red.png
@@ -665,7 +665,7 @@ And a link to it in the layout.html template:
   <nav>
     <ul>
     {% for nav in collections.nav %}
-      <li class="nav-item{% if nav.url == page.url %} nav-item-active{% endif %}"><a href="{{ nav.url | url }}">{{ nav.data.navtitle }}</a></li>
+      <li class="nav-item{% if nav.url == page.url %} nav-item-active{% endif %}"><a href="{{ nav.url | url }}">{{ nav.data.navTitle }}</a></li>
     {%- endfor -%}
     </ul>
   </nav>
@@ -716,7 +716,7 @@ Remove the same tags and layout metadata from all publications in posts. E.g.:
 ```
 ---
 pageTitle: About Us
-navtitle: About
+navTitle: About
 ---
 
 We are a group of commited users.
@@ -732,7 +732,7 @@ layout: layout.html
 pageTitle: Home
 tags:
   - nav
-navtitle: Home
+navTitle: Home
 ---
 
 <p>Welcome to my site.</p>
@@ -743,6 +743,8 @@ navtitle: Home
 {% endfor %}
 ```
 
+TO make sure it shows up first in the nav add `date: 2010-01-01` to the front matter.
+
 ## Adding Our Ajax
 
 Add `ajax.html` to the posts folder with:
@@ -751,7 +753,7 @@ Add `ajax.html` to the posts folder with:
 ---
 pageClass: ajax
 pageTitle: New York Today
-navtitle: Ajax
+navTitle: Ajax
 ---
 
 <h2>Ajax</h2>
@@ -761,7 +763,7 @@ navtitle: Ajax
 <div class="content"></div>
 ```
 
-Note the new pageClass property.
+Note the new pageClass property. We will use this in the template.
 
 Add the following to `scripts.js`:
 
@@ -817,7 +819,7 @@ And edit layout.html to use the pageClass:
 <nav>
 <ul>
 {% for nav in collections.nav %}
-  <li class="nav-item{% if nav.url == page.url %} nav-item-active{% endif %}"><a href="{{ nav.url | url }}">{{ nav.data.navtitle }}</a></li>
+  <li class="nav-item{% if nav.url == page.url %} nav-item-active{% endif %}"><a href="{{ nav.url | url }}">{{ nav.data.navTitle }}</a></li>
 {%- endfor -%}
 </ul>
 </nav>
@@ -881,6 +883,6 @@ But today we'll use [Netlify](https://www.netlify.com/) to put this on the web. 
 
 We can also hook into a Github branch to set up [continuous delpoyment](https://app.netlify.com/start).
 
-For more experience with 11ty, download the official 11ty blog template or, if you feel like a challenge and something fancier, try Villalobos' new [template](https://github.com/planetoftheweb/seven) or [Skeleventy](https://skeleventy.netlify.com/).
+For more experience with 11ty, download the official 11ty blog template or, if you feel like a challenge and something fancier, try Villalobos' new [template](https://github.com/planetoftheweb/seven) or [Skeleventy](https://skeleventy.netlify.com/), or any of the starter files on the [11ty](https://www.11ty.io/docs/starter/) starter page.
 
 ## Notes

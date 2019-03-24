@@ -1,6 +1,6 @@
 ---
 pageTitle: Pictures
-navtitle: Pictures
+navTitle: Pictures
 images:
   - apples.png
   - apples-red.png
