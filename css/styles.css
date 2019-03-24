@@ -22,12 +22,14 @@ nav ul {
 	display: flex;
 }
 
-.nav-item-active {
-  text-decoration: underline;
+nav ul a {
+	padding: 0.5rem;
 }
 
-nav ul a {
-	padding: 1rem;
+.nav-item-active a {
+  color: #fff;
+  background-color: orange;
+  border-radius: 4px;
 }
 
 article {
