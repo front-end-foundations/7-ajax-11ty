@@ -7,11 +7,11 @@
 
 ## Exercise
 
-Today were are building [a multipage static website](https://zealous-kilby-113356.netlify.com) with an ajax connection that pulls articles from the New York Times. 
+Today were are building [a multipage static website](https://zealous-kilby-113356.netlify.com) with an [ajax connection](https://zealous-kilby-113356.netlify.com/posts/ajax/) that pulls articles from the New York Times. 
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/044ddd8e-853d-4282-8248-b2eeab94168d/deploy-status)](https://app.netlify.com/sites/zealous-kilby-113356/deploys)
 
-**Do not download the zip.** Instead, use the same technique outlined last class to clone the repo.
+**Do not download the zip.** Instead, use the same technique outlined last class to clone the repo:
 
 ```sh
 > cd ~/Desktop // or where ever you want to work from
@@ -20,13 +20,15 @@ Today were are building [a multipage static website](https://zealous-kilby-11335
 > npm install
 ```
 
-See what your pushing to: 
+See which Github repo you're pushing to: 
 
 ```sh
 git remote -v
 ```
 
-[Change](https://help.github.com/en/articles/changing-a-remotes-url) the repo you are pushing to.
+Log into Github and create a new repo.
+
+[Change](https://help.github.com/en/articles/changing-a-remotes-url) the repo you are pushing to:
 
 ```sh
 git remote set-url <your gitub repo address>
@@ -45,16 +47,14 @@ And open the localhost address in Chrome.
 
 Ajax allows you to get data from your own or another's web service. Web services expose specific data and services in the form of an API which allows you to get, delete, update or create data via [routes](http://jsonplaceholder.typicode.com/). Today, we are solely focused on getting data.
 
-The original [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) browser API is in widespread use. You should make yourself familiar with it, however we will be using a newer and simpler API called fetch.
+The original [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) browser API is in widespread use. You should make yourself familiar with it, however we will be using a newer (and simpler) API called fetch.
 
 Examine `posts/ajax.html` in VS Code:
 
 ```html
 ---
 pageClass: ajax
-pageTitle: Subpost
-tags:
-  - nav
+pageTitle: New York Today
 navTitle: Ajax
 ---
 
@@ -62,7 +62,8 @@ navTitle: Ajax
 
 <button>Click</button>
 
-<div class="content"></div>
+<div></div>
+
 ```
 
 Don't worry about the `---` material at the top. It is not part of the HTML and can be ignored (we'll get to it later).
@@ -71,11 +72,15 @@ View the page in chrome.
 
 ## Fetch
 
-The `fetch()` [method](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) takes one mandatory argument, the path to the resource you want to fetch. It returns something known as a Promise that, in turn, resolves to the response after the content is received.
+The `fetch()` [API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) takes one mandatory argument, the path to the resource you want to fetch. It returns something known as a Promise that, in turn, resolves to the response after the content is received.
+
+_API_ stands for [Application Programming Interface](https://medium.freecodecamp.org/what-is-an-api-in-english-please-b880a3214a82).
 
 ## Rest API
 
-We need data we can fetch from the internet. We'll start with [Typicode](http://jsonplaceholder.typicode.com/)
+We need data we can fetch from the internet. We'll start with [Typicode](http://jsonplaceholder.typicode.com/), a site set up just to play with. Note that you can do more than just get data, you can also post, create, delete and update data. Together these functions are often refered to a `CRUD`.
+
+Open a console in the browser.
 
 A promise:
 
@@ -92,14 +97,55 @@ A resolved promise using `.then`:
 Since the promise is resolved you can see the actual data in the console. It returns an array of 100 fake posts which we can console.log:
 
 ```sh
-fetch('https://jsonplaceholder.typicode.com/todos/')
+fetch('https://jsonplaceholder.typicode.com/posts/')
   .then(response => response.json())
   .then(json => console.log(json))
 ```
 
-Let's start out with event delegation. 
+You can see the same data if you travel to `https://jsonplaceholder.typicode.com/posts/` in a new tab. Try [other resources](http://jsonplaceholder.typicode.com/) such as comments or photos.
+
+Note the basic structure - an array of objects:
+
+```js
+[
+  { ... },
+  { ... }
+]
+```
+
+The format is json - [JavaScript Object Notation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON)
+
+Let's start out our script with event delegation. 
 
 In `scripts.js`:
+
+```js
+document.addEventListener('click', clickHandlers)
+
+function clickHandlers(){
+  console.log(event.target)
+}
+```
+
+Use [matches](https://developer.mozilla.org/en-US/docs/Web/API/Element/matches) in the context of in `if` statement to run a function:
+
+```js
+document.addEventListener('click', clickHandlers)
+
+function clickHandlers(){
+  if (event.target.matches('button')){
+    getData()
+  }
+}
+
+var getData = function () {
+	fetch('https://jsonplaceholder.typicode.com/posts')
+  .then(response => response.json())
+  .then(json => console.log(json))
+}
+```
+
+Instead of logging the data we will call yet another function:
 
 ```js
 document.addEventListener('click', clickHandlers)
@@ -112,7 +158,7 @@ function clickHandlers(){
 
 var addContent = function(data){
   console.log(data)
-	document.querySelector('.content').innerText = data[1].body;
+	document.querySelector('.content div').innerText = data[1].body;
 }
 
 var getData = function () {
@@ -122,7 +168,11 @@ var getData = function () {
 }
 ```
 
-Try [other resources](http://jsonplaceholder.typicode.com/) such as comments or photos.
+Note:
+
+* `document.querySelector('.content div')` - targets an empty div
+* `data[1]` - we use `[1]` to get the second entry
+* `data[1].body` - we use `.` notation to access just one of the properties of the entry
 
 For comparison, here's the XMLHttpRequest version:
 
@@ -138,14 +188,14 @@ function clickHandlers(){
 
 var addContent = function(data){
   console.log(data)
-	document.querySelector('.content').innerText = data;
+	document.querySelector('.content div').innerText = data[4].title;
 }
 
 var getData = function(data){
   var xhr = new XMLHttpRequest();
   xhr.onload = function () {
     if (xhr.status >= 200 && xhr.status < 300) {
-      addContent(xhr.responseText);
+      addContent(JSON.parse(xhr.responseText));
     } else {
       console.log('The request failed!');
     }
@@ -155,41 +205,34 @@ var getData = function(data){
 }
 ```
 
-Add `var data = JSON.parse(xhr.responseText);` and target one piece of the data only:
+Note: 
+
+* `JSON.parse(xhr.responseText)` is similar to `response => response.json()` in the `fetch` version
+
+## Looping
+
+Let's use the New York Times [developers](https://developer.nytimes.com/) site for our data.
 
 ```js
 document.addEventListener('click', clickHandlers)
 
+// store the link plus the API key in a variable
+var nyt = 'https://api.nytimes.com/svc/topstories/v2/nyregion.json?api-key=OuQiMDj0xtgzO80mtbAa4phGCAJW7GKa'
+
 function clickHandlers(){
-  console.log(event.target)
   if (event.target.matches('button')){
     getData()
   }
 }
 
-var addContent = function(data){
-  console.log(data)
-	document.querySelector('.content').innerText = data[0].title;
-}
-
-var getData = function(data){
-  var xhr = new XMLHttpRequest();
-  xhr.onload = function () {
-    if (xhr.status >= 200 && xhr.status < 300) {
-      var data = JSON.parse(xhr.responseText);
-      addContent(data);
-    } else {
-      console.log('The request failed!');
-    }
-  }
-  xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
-  xhr.send();
+var getData = function () {
+	fetch(nyt)
+  .then(response => response.json())
+  .then(json => console.log(json))
 }
 ```
 
-## Looping
-
-New York Times [developers](https://developer.nytimes.com/) site.
+Examine the nature of the returned data in the console. The `results` property contains the data we are interested in.
 
 ```js
 document.addEventListener('click', clickHandlers)
@@ -203,9 +246,10 @@ function clickHandlers(){
 }
 
 var addContent = function(data){
-
+  // initialize an empty variable
   var looped = ''
 
+  // use += in a for loop that uses the length of the results
   for(i=0; i<data.results.length; i++){
     looped += `
       <div class="item">
@@ -272,6 +316,24 @@ var getData = function () {
   .then(json => addContent(json))
 }
 ```
+
+Add CSS to format the data:
+
+```css
+.ajax .content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 2rem;
+}
+
+.ajax .item {
+  border-bottom: 1px dashed #aaa;
+}
+```
+
+Note: I've added a class `ajax` to the body tag of this page _only_.
+
+Commit your changes and push to your github repo. A finished version of this file is available to you in the `spring2019-done` branch of this repo.
 
 ## Eleventy
 

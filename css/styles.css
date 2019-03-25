@@ -55,16 +55,6 @@ nav ul a {
   width: 4rem;
 }
 
-.ajax .content > div {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 2rem;
-}
-
-.ajax .item {
-  border-bottom: 1px dashed #aaa;
-}
-
 .pics .content img {
   width: 60%;
   padding: 1rem;
