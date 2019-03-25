@@ -7,7 +7,7 @@
 
 ## Exercise
 
-Today were are building [a multipage static website](https://amazing-hawking-49c3f6.netlify.com) with an ajax connection that pulls articles from the New York Times. 
+Today were are building [a multipage static website](https://zealous-kilby-113356.netlify.com) with an ajax connection that pulls articles from the New York Times. 
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/044ddd8e-853d-4282-8248-b2eeab94168d/deploy-status)](https://app.netlify.com/sites/zealous-kilby-113356/deploys)
 
