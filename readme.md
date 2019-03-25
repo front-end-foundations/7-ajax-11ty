@@ -337,9 +337,9 @@ Commit your changes and push to your github repo. A finished version of this fil
 
 ## Eleventy
 
-[Eleventy](https://www.11ty.io/) (aka 11ty) is a simple [static site generator](https://www.smashingmagazine.com/2015/11/static-website-generators-jekyll-middleman-roots-hugo-review/). Static websites are very popular these days due to thier superior speed and security.
+[Eleventy](https://www.11ty.io/) (aka 11ty) is a simple [static site generator](https://www.smashingmagazine.com/2015/11/modern-static-website-generators-next-big-thing/) (Smashing Magazine itself is [statically generated](https://www.smashingmagazine.com/2017/03/a-little-surprise-is-waiting-for-you-here/)). Static websites are very popular these days due to their simplicity, superior speed and security. Here is a [list](https://www.staticgen.com/) sorted by popularity.
 
-A template processor (also known as a template engine or template parser) is software designed to combine templates with data to output documents. The language that the templates are written in is known as a template language or templating language.
+Every generator uses a template processor - software designed to combine templates with data to output documents. The language that the templates are written in is known as a template language or templating language.
 
 The benefits of 11ty over other completing generators include the fact that it is written in JavaScript and its comparative simplicity. It uses [Liquid](https://shopify.github.io/liquid/) under the hood to make pages. Liquid is the in-house templating engine created and maintained by Shopify. You can use additional template engines with 11ty if you wish. 
 
