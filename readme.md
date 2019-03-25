@@ -345,6 +345,8 @@ The benefits of 11ty over other completing generators include the fact that it i
 
 The most popular static site generator - Jekyll - is used at Github and is written in Ruby. 
 
+You will be working from a new empty folder for this exercise.
+
 ```sh
 cd ~/Desktop
 mkdir eleventy
@@ -368,7 +370,7 @@ Add a script to `package.json`:
   },
 ```
 
-Create a `posts` folder and within it, a sample markdown file about.md.
+Create a `posts` folder and within it, a sample markdown file `about.md`:
 
 ```md
 # About Us
@@ -386,7 +388,14 @@ npm run start
 
 Note the creation of the `_site` folder and its contents.
 
-You can view the page at `http://localhost:XXXX/posts/about/` where `XXXX` is the port the el11ty is running on.
+You can view the page at `http://localhost:XXXX/posts/about/` where `XXXX` is the port 11ty is running on.
+
+Note:
+
+* the generated `_site` folder
+* the new `index.html` in `posts/about`
+* the conversion from markdown to html
+* be careful not to edit the files in `_site` as they are generated
 
 Create `pictures.md` in posts (not in the _site folder):
 
@@ -402,9 +411,23 @@ A collection of images.
 [Back](/)
 ```
 
-These new files need a template.
+Note the new HTML file created at `http://localhost:XXXX/posts/pictures/`. Examine the file in the _site folder and note the conversion to HTML.
 
-Note the new HTML file created at `http://localhost:XXXX/posts/pictures/`. Examine the file in the _site folder.
+### Markdown
+
+Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid HTML. invented by [John Gruber](https://daringfireball.net/projects/markdown/) - it (or one of its flavors) is ubiquitous in web publishing. This readme file is written in [Github flavored](https://help.github.com/en/articles/basic-writing-and-formatting-syntax) markdown.
+
+A lot of the conventions for Markdown arose from how people used email when it was confined to simple text documents, e.g. a bulleted list:
+
+```txt
+* item one
+* item two
+* item three
+```
+
+## Templates
+
+These new files need a template. Recall, one main goal of a static site generator is to combine articles with templates(s) to produce HTML pages.
 
 Create `index.html` at the top level.
 
@@ -431,13 +454,11 @@ Create `index.html` at the top level.
 </html>
 ```
 
-Navigate to `http://localhost:XXXX/` and use the navigation. This is not a template yet
-
-## Templating
+Navigate to `http://localhost:XXXX/` and test the navigation. This is not a template yet
 
 Create an `_includes` folder at the top level of the project.
 
-Save index.html into it as `layout.html` with the following changes:
+Save the below into it as `layout.html`:
 
 ```html
 <!DOCTYPE html>
@@ -466,7 +487,7 @@ Save index.html into it as `layout.html` with the following changes:
 </html>
 ```
 
-Recall, 11ty uses a templating system called Liquid by default. `{{ content }}` is a Liquid [object](https://shopify.github.io/liquid/basics/introduction/). If templating is new to you don't worry, it is generally quite simple and can be mastered easily. There are so many templating languages besides Liquid (and 11ty supports most). You will eventually find one that works best for you.
+Recall, 11ty uses a templating software called Liquid by default. `{{ content }}` is a Liquid [object](https://shopify.github.io/liquid/basics/introduction/). If templating is new to you don't worry, it is generally quite simple and can be mastered easily. There are many templating languages besides Liquid (and 11ty supports most). You will eventually find one that works best for you.
 
 Edit index.html as follows:
 
@@ -480,11 +501,15 @@ layout: layout.html
 
 The material at the top between the `---`s is called [frontmatter](https://www.11ty.io/docs/data-frontmatter/) as uses `Yaml` (Yet Another Markup Language) syntax. It can also be written in JSON.
 
-Add to layout.html:
+The front matter here specifies that this document (index.html) should use layout.html as its template.
+
+We can use front matter to pass information to the template.
+
+Add this to layout.html:
 
 `<h1>{{ pageTitle }}</h1>`
 
-Extend the frontmatter in `index.html`:
+And extend the frontmatter in `index.html`:
 
 ```html
 ---
@@ -495,9 +520,9 @@ pageTitle: Home
 <p>Welcome to my site.</p>
 ```
 
-Note: we use front matter to pass data to the template.
+Let use front matter in our other documents.
 
-And in `about.md`:
+In `about.md`:
 
 ```html
 ---
@@ -510,7 +535,7 @@ We are a group of commited users.
 [Home](/)
 ```
 
-Note that `about.md` now renders into the template.
+`about.md` now renders via the template.
 
 And in `pictures.md`:
 
@@ -529,7 +554,7 @@ pageTitle: Pictures
 
 ## Collections
 
-A [collection](https://www.11ty.io/docs/collections/) allows you to group, sort and filter content.
+[Collections](https://www.11ty.io/docs/collections/) can be used to group, sort and filter content.
 
 In `about.md`:
 
@@ -581,6 +606,8 @@ In layout.html:
 
 Note: `{% ... %}` is a liquid [tag](https://shopify.github.io/liquid/basics/introduction/). Templating tags create the logic and control flow for templates. 
 
+This looks identical to our hard coded nav. Let's add a home link.
+
 In index.html:
 
 ```html
@@ -595,7 +622,7 @@ navTitle: Home
 <p>Welcome to my site.</p>
 ```
 
-Note: you can use HTML in a markdown file.
+Note: you can usually use HTML in a markdown file.
 
 Add `contact.md` to the posts folder:
 
@@ -613,11 +640,11 @@ navTitle: Contact
 <a href="/">Back</a>
 ```
 
-Note: front matter tags can also be written `tags: nav` or `tags: [nav]` if you need multiples just add more: `tags: [nav, other]`. Here's the tagging [documentation](https://www.11ty.io/docs/collections/#tag-syntax).
+Note: front matter tags can also be written `tags: nav` or `tags: [nav]` if you need multiples use the latter: `tags: [nav, other]`. Here's the tagging [documentation](https://www.11ty.io/docs/collections/#tag-syntax).
 
 You can use HTML files alongside markdown.
 
-Change `contact.md` to `contact.html`:
+Change the name of `contact.md` to `contact.html`:
 
 ```html
 ---
@@ -641,7 +668,7 @@ navTitle: Contact
 
 We will add some images to the pictures page. Copy the `img` folder from today's project into the new eleventy folder.
 
-Here's an image reference in markdown:
+We'll create another collection:
 
 ```html
 ---
@@ -661,7 +688,9 @@ images:
 [Home](/)
 ```
 
-Note that the img folder in our project doesn't copy to the rendered site.
+Note that the img folder in our project doesn't copy to the rendered site - we only see the alt text.
+
+## Site Preferences
 
 Add a `.eleventy.js` file to the top level of the project:
 
@@ -673,11 +702,11 @@ module.exports = function (eleventyConfig) {
 
 Restart the server and you'll find the img folder in `_site`.
 
-The image path needs to be altered from a relative path to a root directory path:
+Note: the image path needs to be altered from a relative path to a root directory path:
 
 `![Image of apples](/img/apples.png)`
 
-We can use this in 11ty to loop through the images collection with:
+We can use our collection to loop through the images collection with:
 
 ```html
 {% for filename in images %}
