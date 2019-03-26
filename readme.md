@@ -337,7 +337,7 @@ Commit your changes and push to your github repo. A finished version of this fil
 
 ## Eleventy
 
-[Eleventy](https://www.11ty.io/) (aka 11ty) is a simple [static site generator](https://www.smashingmagazine.com/2015/11/modern-static-website-generators-next-big-thing/) (Smashing Magazine itself is [statically generated](https://www.smashingmagazine.com/2017/03/a-little-surprise-is-waiting-for-you-here/)). Static websites are very popular these days due to their simplicity, superior speed and security. Here is a [list](https://www.staticgen.com/) sorted by popularity.
+[Eleventy](https://www.11ty.io/) (aka 11ty) is a simple [static site generator](https://www.smashingmagazine.com/2015/11/modern-static-website-generators-next-big-thing/) (Smashing Magazine itself is [statically generated](https://www.smashingmagazine.com/2017/03/a-little-surprise-is-waiting-for-you-here/)). Static websites are very popular these days due to their simplicity, superior speed, SEO and security. Here is a [list](https://www.staticgen.com/) sorted by popularity.
 
 Every generator uses a template processor - software designed to combine templates with data to output documents. The language that the templates are written in is known as a template language or templating language.
 
@@ -702,7 +702,7 @@ module.exports = function (eleventyConfig) {
 
 Restart the server and you'll find the img folder in `_site`.
 
-Note: the image path needs to be altered from a relative path to a root directory path:
+Note: the image path needs to be altered from a relative path to a root directory (`/`) path:
 
 `![Image of apples](/img/apples.png)`
 
@@ -714,7 +714,7 @@ We can use our collection to loop through the images collection with:
 {% endfor %}
 ```
 
-In `pictures.md`
+In `pictures.md`:
 
 ```html
 ---
@@ -730,7 +730,7 @@ images:
 ---
 
 {% for filename in images %}
-<img src="/img/{{ filename }}" alt="A nice picture of apples." srcset="">
+<img src="/img/{{ filename }}" alt="A nice picture of apples.">
 {% endfor %}
 
 [Home](/)
@@ -746,7 +746,9 @@ module.exports = function (eleventyConfig) {
 };
 ```
 
-Add an empty js folder.
+Note: if we were to restart the build process at this point you would receive an error due to the fact that these folders do not exist.
+
+Add a new `js` folder.
 
 Add a css folder and, inside it, `styles.css` with:
 
@@ -786,7 +788,7 @@ article {
 }
 ```
 
-And a link to it in the layout.html template:
+And a link to it in the `layout.html` template:
 
 ```html
 <!DOCTYPE html>
@@ -820,11 +822,13 @@ And a link to it in the layout.html template:
 </html>
 ```
 
-Note the addition of the `{% if ... endif %}` tag in the navbar. This creates a static active class that we can leverage in the css.
+Note the addition of the `{% if ... endif %}` tag in the navbar. This creates a static active class that we will leverage shortly.
+
+**Restart the server and refresh the browser.** You should see the css in the _site directory and its effect on the site..
 
 ## The Posts Collection
 
-We can also add additional tags that can be used to reorganize content in interesting ways. 
+We will add additional tags that can be used to reorganize content. 
 
 Instead of this however:
 
@@ -848,9 +852,9 @@ We can create `posts/posts.json`:
 
 ```
 
-Any document in the posts folder will inherit these properties so can can now remove the duplicate tags and layout metadata from all publications in the posts directory. E.g.:
+Any document in the posts folder will inherit these properties so can can now remove the duplicate tags and layout metadata from all publications in the posts directory.
 
-* posts:
+* `posts/about.md`:
 
 ```md
 ---
@@ -863,7 +867,7 @@ We are a group of commited users.
 [Home](/)
 ```
 
-* contact:
+* `posts/contact.html`:
 
 ```html
 ---
@@ -880,7 +884,7 @@ navTitle: Contact
 <a href="/">Home</a>
 ```
 
-* and pictures:
+* and `posts/pictures.md`:
 
 ```md
 ---
@@ -918,7 +922,7 @@ navTitle: Home
 {% endfor %}
 ```
 
-Note: the `|` character in `post.date | date: "%Y-%m-%d"` is a filter. There are a number of [filters available](https://help.shopify.com/en/themes/liquid/filters) including `upcase`:
+Note: the `|` character in `post.date | date: "%Y-%m-%d"` is a filter. There are quite a number of [available filters](https://help.shopify.com/en/themes/liquid/filters) for example: `upcase`:
 
 ```html
 {% for post in collections.posts %}
@@ -927,11 +931,11 @@ Note: the `|` character in `post.date | date: "%Y-%m-%d"` is a filter. There are
 {% endfor %}
 ```
 
-To make sure it shows up first in the nav add `date: 2010-01-01` to the front matter.
+Note: to make sure it shows up first in the nav add `date: 2010-01-01` to the front matter in `index.html`.
 
 ## Adding Our Ajax
 
-Add `ajax.html` to the posts folder with:
+Add a new `ajax.html` file to the posts folder with:
 
 ```html
 ---
@@ -948,7 +952,7 @@ navTitle: Ajax
 
 Note the new `pageClass` property. We will use this in our `layout.html` template.
 
-Add the following to `scripts.js`:
+Add the following to `js/scripts.js`:
 
 ```js
 document.addEventListener('click', clickHandlers)
@@ -974,7 +978,7 @@ var addContent = function(data){
       `
   }
 
-  document.querySelector('.content').innerHTML = looped
+  document.querySelector('.content div').innerHTML = looped
 
 }
 
@@ -985,7 +989,7 @@ var getData = function () {
 }
 ```
 
-And edit layout.html to use the pageClass:
+And edit `layout.html` to include a link (`<script src="/js/scripts.js" ></script>`) to our JavaScript file _and_ to use `pageClass` (`<body class="{{ pageClass }}">`):
 
 ```html
 <!DOCTYPE html>
@@ -997,6 +1001,7 @@ And edit layout.html to use the pageClass:
    <link rel="stylesheet" href="/css/styles.css">
   <title>My Blog</title>
 </head>
+<!-- new -->
 <body class="{{ pageClass }}">
 
 <nav>
@@ -1014,20 +1019,22 @@ And edit layout.html to use the pageClass:
     {{ content }}
     
 </div>
-
+<!-- new -->
 <script src="/js/scripts.js" ></script>
 
 </body>
 </html>
 ```
 
+Note:
+
+* the ajax should work
+* the body tag should now have the class defined in `ajax.html`
+
+
 Add CSS to taste:
 
 ```css
-nav ul a {
-	padding: 0.5rem;
-}
-
 .nav-item-active a {
   color: #fff;
   background-color: #007eb6;
@@ -1055,12 +1062,12 @@ nav ul a {
 ```
 
 Note:
-* we are using the className property to scope this page and enanble the css
+* we are using the className frontmatter property to scope this page and enanble the css
 * the use of the `>` selector
 * the use of the `.nav-item-active a` selector
 * the root relative paths for the CSS and JavaScript.
 
-If we upload this to a web server these will [break](http://oit2.scps.nyu.edu/~devereld/session7/_site/) due to the root links.
+If we upload this to a web server our site will [break](http://oit2.scps.nyu.edu/~devereld/session7/_site/) due to the root links.
 
 The error reads:
 
@@ -1070,12 +1077,12 @@ There are a number of ways to deal with this including putting a `base` tag in t
 
 `<base href="https://www.oit2.scps.nyu.edu.com/session7/_site">`
 
-But today we'll use [Netlify](https://www.netlify.com/) to put this on the web. Register and/or log in to [app.netlify.com](https://app.netlify.com) and drag and drop the `_site` folder onto the web browser window to upload the contents [live to the web](https://amazing-hawking-49c3f6.netlify.com).
+We'll use [Netlify](https://www.netlify.com/) to put this on the web. Register and/or log in to [app.netlify.com](https://app.netlify.com) and drag and drop the `_site` folder onto the web browser window to upload the contents [live to the web](https://zealous-kilby-113356.netlify.com/).
 
-We can also hook into a Github branch to set up [continuous delpoyment](https://app.netlify.com/start).
+We can also hook into a Github branch to set up [continuous delpoyment](https://app.netlify.com/start). Here is a [sample](https://agitated-bartik-814348.netlify.com/) with [admin](https://agitated-bartik-814348.netlify.com/admin).
 
 For more experience with 11ty, download the official 11ty blog template or, if you feel like a challenge and something fancier, try Villalobos' new [template](https://github.com/planetoftheweb/seven) or [Skeleventy](https://skeleventy.netlify.com/), or any of the starter files on the [11ty](https://www.11ty.io/docs/starter/) starter page.
 
 ## Notes
 
-JAM stack
+[JAM stack](https://jamstack.org/)
