@@ -1,32 +1,31 @@
-document.addEventListener('click', clickHandlers)
+document.addEventListener('click', clickHandlers);
 
-var nyt = 'https://api.nytimes.com/svc/topstories/v2/nyregion.json?api-key=OuQiMDj0xtgzO80mtbAa4phGCAJW7GKa'
+var nyt =
+  'https://api.nytimes.com/svc/topstories/v2/nyregion.json?api-key=uQG4jhIEHKHKm0qMKGcTHqUgAolr1GM0';
 
-function clickHandlers(){
-  if (event.target.matches('button')){
-    getData()
+function clickHandlers() {
+  if (event.target.matches('button')) {
+    getData();
   }
 }
 
-var addContent = function(data){
+var addContent = function(data) {
+  var looped = '';
 
-  var looped = ''
-
-  for(i=0; i<data.results.length; i++){
+  for (i = 0; i < data.results.length; i++) {
     looped += `
       <div class="item">
         <h3>${data.results[i].title}</h3>
         <p>${data.results[i].abstract}</p>
       </div>
-      `
+      `;
   }
 
-  document.querySelector('.content div').innerHTML = looped
+  document.querySelector('.content div').innerHTML = looped;
+};
 
-}
-
-var getData = function () {
-	fetch(nyt)
-  .then(response => response.json())
-  .then(json => addContent(json))
-}
+var getData = function() {
+  fetch(nyt)
+    .then(response => response.json())
+    .then(json => addContent(json));
+};
